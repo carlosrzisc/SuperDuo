@@ -1,41 +1,37 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent" tools:context="it.jaschke.alexandria.AddBook">
 
     <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:padding="@dimen/fragment_padding"
         android:layout_gravity="center_horizontal|top">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:id="@+id/eancontainer"
+        <android.support.v7.widget.SearchView
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:inputType="number"
+            android:minEms="@integer/ean_width"
+            android:id="@+id/ean"
+            android:saveEnabled="true"
+            app:iconifiedByDefault="false"
+            android:maxLength="@integer/ean_size"
+            android:maxLines="1"
+            app:queryHint="@string/input_hint"
+            android:layout_marginTop="15dp"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:minEms="@integer/ean_width"
-                android:id="@+id/ean"
-                android:saveEnabled="true"
-                android:maxLength="@integer/ean_size"
-                android:maxLines="1"
-                android:hint="@string/input_hint"
-                android:paddingRight="20dp"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/scan_button"
-                android:id="@+id/scan_button"/>
-
-        </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/scan_button"
+            android:id="@+id/scan_button"
+            android:layout_alignRight="@+id/ean"
+            android:layout_below="@+id/ean"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,9 +42,9 @@
             android:textStyle="bold"
             android:layout_marginTop="25dp"
             android:paddingRight="20dp"
-            android:layout_below="@+id/eancontainer"
-            android:layout_alignLeft="@+id/eancontainer"
-            android:layout_alignStart="@+id/eancontainer"/>
+            android:layout_below="@+id/scan_button"
+            android:layout_alignLeft="@+id/ean"
+            android:layout_alignStart="@+id/ean"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +54,7 @@
             android:layout_below="@+id/bookTitle"
             android:maxLines="3"
             android:ellipsize="end"
-            android:layout_alignLeft="@+id/eancontainer"
+            android:layout_alignLeft="@+id/ean"
             />
 
         <TextView
@@ -69,8 +65,8 @@
             android:textSize="@dimen/small_fontsize"
             android:layout_marginTop="20dp"
             android:layout_below="@+id/bookSubTitle"
-            android:layout_alignRight="@+id/eancontainer"
-            android:layout_alignEnd="@+id/eancontainer"
+            android:layout_alignRight="@+id/ean"
+            android:layout_alignEnd="@+id/ean"
             />
 
         <ImageView
@@ -79,8 +75,8 @@
             android:id="@+id/bookCover"
             android:contentDescription="@string/book_cover"
             android:layout_alignTop="@+id/authors"
-            android:layout_alignLeft="@+id/eancontainer"
-            android:layout_alignStart="@+id/eancontainer"/>
+            android:layout_alignLeft="@+id/ean"
+            android:layout_alignStart="@+id/ean"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -89,8 +85,8 @@
             android:textSize="@dimen/small_fontsize"
             android:layout_below="@+id/bookCover"
             android:layout_marginTop="20dp"
-            android:layout_alignLeft="@+id/eancontainer"
-            android:layout_alignStart="@+id/eancontainer"/>
+            android:layout_alignLeft="@+id/ean"
+            android:layout_alignStart="@+id/ean"/>
 
         <LinearLayout
             android:orientation="horizontal"

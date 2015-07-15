@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,6 +39,8 @@ public class BookService extends IntentService {
 
     public static final String EAN = "it.jaschke.alexandria.services.extra.EAN";
 
+    public static final String CHANGE_IN_DB_BROADCAST_ACTION = "it.jaschke.alexandria.services.action.BROADCAST_DB_CHANGE";
+
     public BookService() {
         super("Alexandria");
     }
@@ -61,8 +64,17 @@ public class BookService extends IntentService {
      * parameters.
      */
     private void deleteBook(String ean) {
-        if(ean!=null) {
-            getContentResolver().delete(AlexandriaContract.BookEntry.buildBookUri(Long.parseLong(ean)), null, null);
+        // Validating ean is not empty to avoid a NumberFormatException
+        if(ean!=null && !ean.isEmpty()) {
+            try {
+                getContentResolver().delete(AlexandriaContract.BookEntry.buildBookUri(Long.parseLong(ean)), null, null);
+
+                Intent intent = new Intent(CHANGE_IN_DB_BROADCAST_ACTION);
+                sendBroadcast(intent);
+            }catch (NumberFormatException nbe) {
+                // just making sure we handle any wrong value coming from ean and prevent a crash
+                nbe.printStackTrace();
+            }
         }
     }
 
@@ -198,6 +210,11 @@ public class BookService extends IntentService {
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Error ", e);
+        } catch (NullPointerException ne) {
+            // Got NullPointerException due no internet connection available, send error message to UI
+            Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
+            messageIntent.putExtra(MainActivity.MESSAGE_KEY,getResources().getString(R.string.error_no_internet_connection));
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
         }
     }
 

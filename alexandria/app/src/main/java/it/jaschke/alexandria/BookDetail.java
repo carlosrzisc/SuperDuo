@@ -31,6 +31,7 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
     private String ean;
     private String bookTitle;
     private ShareActionProvider shareActionProvider;
+    private boolean isDataLoadFinished = false;
 
     public BookDetail(){
     }
@@ -72,6 +73,9 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
 
         MenuItem menuItem = menu.findItem(R.id.action_share);
         shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+        if (isDataLoadFinished){
+            shareActionProvider.setShareIntent(getShareIntent());
+        }
     }
 
     @Override
@@ -86,6 +90,14 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         );
     }
 
+    private Intent getShareIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text) + bookTitle);
+        return shareIntent;
+    }
+
     @Override
     public void onLoadFinished(android.support.v4.content.Loader<Cursor> loader, Cursor data) {
         if (!data.moveToFirst()) {
@@ -95,11 +107,14 @@ public class BookDetail extends Fragment implements LoaderManager.LoaderCallback
         bookTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
         ((TextView) rootView.findViewById(R.id.fullBookTitle)).setText(bookTitle);
 
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_text)+bookTitle);
-        shareActionProvider.setShareIntent(shareIntent);
+        // Need to check if shareActionProvider has already initialized
+        if (shareActionProvider != null) {
+            shareActionProvider.setShareIntent(getShareIntent());
+        } else {
+            // if it has not been initialized, then we just put a flag to be initialized on the
+            // onCreateOptionsMenu, at that point bookTitle will be available because we just set it
+            isDataLoadFinished = true;
+        }
 
         String bookSubTitle = data.getString(data.getColumnIndex(AlexandriaContract.BookEntry.SUBTITLE));
         ((TextView) rootView.findViewById(R.id.fullBookSubTitle)).setText(bookSubTitle);

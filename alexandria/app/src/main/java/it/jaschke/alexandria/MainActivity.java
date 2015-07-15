@@ -97,7 +97,6 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         actionBar.setTitle(title);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!navigationDrawerFragment.isDrawerOpen()) {
