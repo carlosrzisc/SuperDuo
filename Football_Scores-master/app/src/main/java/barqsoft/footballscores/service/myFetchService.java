@@ -19,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 import java.util.TimeZone;
 import java.util.Vector;
 
@@ -31,6 +32,7 @@ import barqsoft.footballscores.R;
 public class myFetchService extends IntentService
 {
     public static final String LOG_TAG = "myFetchService";
+
     public myFetchService()
     {
         super("myFetchService");
@@ -188,6 +190,11 @@ public class myFetchService extends IntentService
                             getString("href");
                     match_id = match_id.replace(MATCH_LINK, "");
                     if(!isReal){
+                        //Random rand = new Random();
+
+                        // nextInt is normally exclusive of the top value,
+                        // so add 1 to make it inclusive
+                        //int randomNum = rand.nextInt((9 - 0) + 1) + 0;
                         //This if statement changes the match ID of the dummy data so that it all goes into the database
                         match_id=match_id+Integer.toString(i);
                     }
