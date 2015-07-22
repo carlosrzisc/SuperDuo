@@ -8,13 +8,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v7.widget.SearchView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,13 +22,10 @@ import it.jaschke.alexandria.services.DownloadImage;
 
 
 public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String TAG = "INTENT_TO_SCAN_ACTIVITY";
     private SearchView ean;
-    private final int LOADER_ID = 1;
     private View rootView;
     private final String EAN_CONTENT="eanContent";
     private static final String SCAN_FORMAT = "SCAN_RESULT_FORMAT";
-    private static final String SCAN_CONTENTS = "scanContents";
 
     private static final String SCAN_RESULT = "SCAN_RESULT";
     private static final int SCAN_REQUEST_CODE = 49374;
@@ -39,9 +33,6 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     private static final String SCAN_FORMAT_BARCODE = "EAN_13";
 
     private String currentISBN;
-
-    private String mScanFormat = "Format:";
-    private String mScanContents = "Contents:";
 
     FragmentIntentIntegrator scanner;
 
@@ -172,6 +163,7 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
     }
 
     private void restartLoader(){
+        int LOADER_ID = 1;
         getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
@@ -207,6 +199,9 @@ public class AddBook extends Fragment implements LoaderManager.LoaderCallbacks<C
         ((TextView) rootView.findViewById(R.id.bookSubTitle)).setText(bookSubTitle);
 
         String authors = data.getString(data.getColumnIndex(AlexandriaContract.AuthorEntry.AUTHOR));
+        if (authors == null) {
+            authors = "";
+        }
         String[] authorsArr = authors.split(",");
         ((TextView) rootView.findViewById(R.id.authors)).setLines(authorsArr.length);
         ((TextView) rootView.findViewById(R.id.authors)).setText(authors.replace(",","\n"));

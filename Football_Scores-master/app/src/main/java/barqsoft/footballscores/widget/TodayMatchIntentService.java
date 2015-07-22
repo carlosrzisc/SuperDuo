@@ -20,22 +20,6 @@ import barqsoft.footballscores.scoresAdapter;
  * Updates single widget
  */
 public class TodayMatchIntentService extends IntentService {
-//    private static final String[] SCORES_COLUMNS = {
-//            DatabaseContract.scores_table._ID,
-//            DatabaseContract.scores_table.HOME_COL,
-//            DatabaseContract.scores_table.HOME_GOALS_COL,
-//            DatabaseContract.scores_table.TIME_COL,
-//            DatabaseContract.scores_table.AWAY_COL,
-//            DatabaseContract.scores_table.AWAY_GOALS_COL
-//    };
-//
-//    private static final int INDEX_SCORE_ID = 0;
-//    private static final int INDEX_HOME_NAME = 1;
-//    private static final int INDEX_HOME_GOALS = 2;
-//    private static final int INDEX_TIME = 3;
-//    private static final int INDEX_AWAY_NAME = 4;
-//    private static final int INDEX_AWAY_GOALS = 5;
-
 
     public TodayMatchIntentService() {
         super(TodayMatchIntentService.class.getName());
@@ -83,7 +67,9 @@ public class TodayMatchIntentService extends IntentService {
             }
 
             views.setTextViewText(R.id.score_textview, score);
+            views.setContentDescription(R.id.score_textview, score);
             views.setTextViewText(R.id.data_textview, t);
+            views.setContentDescription(R.id.data_textview, t);
 
             // Create an Intent to launch MainActivity
             Intent launchIntent = new Intent(this, MainActivity.class);

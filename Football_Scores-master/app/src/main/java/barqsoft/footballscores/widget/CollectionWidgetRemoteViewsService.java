@@ -83,7 +83,9 @@ public class CollectionWidgetRemoteViewsService extends RemoteViewsService {
                 }
 
                 views.setTextViewText(R.id.score_textview, score);
+                views.setContentDescription(R.id.score_textview, score);
                 views.setTextViewText(R.id.data_textview, t);
+                views.setContentDescription(R.id.data_textview, t);
 
                 final Intent fillInIntent = new Intent();
                 Uri scoresUri = DatabaseContract.scores_table.buildScoreWithDate();

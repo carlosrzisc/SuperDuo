@@ -39,4 +39,5 @@
     <string name="title_widget_today">Single Today Soccer score</string>
     <string name="title_widget_collection_today">Collection Today Soccer scores</string>
     <string name="empty_scores_list">No scores information available</string>
+    <string name="pager_header">Match days</string>
 </resources>

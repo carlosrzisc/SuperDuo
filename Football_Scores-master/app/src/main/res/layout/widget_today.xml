@@ -33,7 +33,8 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textSize="@dimen/Score_widget"
-                android:id="@+id/score_textview"/>
+                android:id="@+id/score_textview"
+                android:contentDescription="@string/test_text"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
@@ -41,7 +42,8 @@
                 android:text="@string/test_text"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:id="@+id/data_textview"/>
+                android:id="@+id/data_textview"
+                android:contentDescription="@string/test_text"/>
         </LinearLayout>
         <ImageView
             android:layout_width="0dp"

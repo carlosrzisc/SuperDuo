@@ -2,8 +2,11 @@ package it.jaschke.alexandria.services;
 
 import android.app.IntentService;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -85,6 +88,17 @@ public class BookService extends IntentService {
     private void fetchBook(String ean) {
 
         if(ean.length()!=13){
+            return;
+        }
+
+        ConnectivityManager cm =
+                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        if (!isConnected) {
+            Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
+            messageIntent.putExtra(MainActivity.MESSAGE_KEY, getResources().getString(R.string.error_no_internet_connection));
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
             return;
         }
 
@@ -213,7 +227,7 @@ public class BookService extends IntentService {
         } catch (NullPointerException ne) {
             // Got NullPointerException due no internet connection available, send error message to UI
             Intent messageIntent = new Intent(MainActivity.MESSAGE_EVENT);
-            messageIntent.putExtra(MainActivity.MESSAGE_KEY,getResources().getString(R.string.error_no_internet_connection));
+            messageIntent.putExtra(MainActivity.MESSAGE_KEY,getResources().getString(R.string.error_generic_retrieving_info));
             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(messageIntent);
         }
     }
