@@ -1,5 +1,5 @@
 # Udacity Super Duo
-This is project is part of Udacity Nanodegree. This handles error cases, adding accessibility features, allowing for localization, adding a widget, and adding Zxing library.
+This project is part of Udacity Nanodegree. This handles error cases, adding accessibility features, allowing for localization, adding a widget, and adding Zxing library.
 
 This project consists of two apps:
 - Alexandria: A book list and barcode scanner app.
